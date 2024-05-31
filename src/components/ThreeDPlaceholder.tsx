@@ -56,6 +56,12 @@ const ThreeDPlaceholder: React.FC = () => {
 					color: colors[i],
 				});
 
+				const color: THREE.Color[] = [
+					new THREE.Color(0xff99cc),
+					new THREE.Color(0xff99cc),
+					new THREE.Color(0xff99cc),
+				];
+
 				const wrapper = new THREE.Object3D();
 				wrapper.rotation.order = "ZXY";
 				wrapper.rotation.set(0, 0, 0 - i);
