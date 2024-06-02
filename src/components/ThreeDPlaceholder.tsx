@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { TweenMax, Power0 } from "gsap";
 import { styled } from "@mui/material/styles";
-import { color } from "three/examples/jsm/nodes/Nodes.js";
+import useResponsive from "@/hooks/useResponsive";
 
 const PlaceholderContainer = styled("div")({
 	width: "100%",
@@ -17,8 +17,11 @@ const PlaceholderContainer = styled("div")({
 
 const ThreeDPlaceholder: React.FC = () => {
 	const mountRef = useRef<HTMLDivElement>(null);
+	const isMobile = useResponsive("down", "sm");
 
 	useEffect(() => {
+		if (isMobile) return;
+
 		let scene: any, camera: any, renderer: any;
 
 		const init = () => {
@@ -130,7 +133,7 @@ const ThreeDPlaceholder: React.FC = () => {
 			window.removeEventListener("resize", resizeHandler);
 			mountRef.current?.removeChild(renderer.domElement);
 		};
-	}, []);
+	}, [isMobile]);
 
 	return <PlaceholderContainer ref={mountRef} />;
 };

@@ -5,6 +5,7 @@ import SideNav from "@/components/SideNav";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ChatPlayground from "@/components/ChatPlayground";
+import Image from "next/image";
 
 type Output = {
 	title: string;
@@ -15,7 +16,7 @@ const LogoWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
 	position: "fixed",
 	top: theme.spacing(1.5),
 	left: open
-		? `calc(240px + ${theme.spacing(2)})`
+		? `calc(260px + ${theme.spacing(2)})`
 		: `calc(${theme.spacing(9.5)})`,
 	transition: theme.transitions.create("left", {
 		easing: theme.transitions.easing.sharp,
@@ -57,7 +58,7 @@ export default function Home() {
 		>
 			<SideNav open={openDrawer} onToggle={handleToggleDrawer} />
 			<LogoWrapper open={openDrawer}>
-				<img src="/assets/logo43.png" alt="logo" width="40" />
+				<Image src="/assets/logo43.png" alt="logo" width="40" height="45" />
 			</LogoWrapper>
 			<ChatPlayground
 				open={openDrawer}

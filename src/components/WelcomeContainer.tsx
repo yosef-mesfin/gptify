@@ -4,7 +4,6 @@ import { IconButton, Container, Typography, Box, Stack } from "@mui/material";
 import theme from "@/themes";
 
 const WelcomeContainerWrapper = styled(Container)(({ theme }) => ({
-	width: "80%",
 	height: "100%",
 	background: "transparent",
 	display: "flex",

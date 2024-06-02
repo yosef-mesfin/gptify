@@ -38,8 +38,13 @@ const PlaygroundWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
 const ChatBodyWrapper = styled(Box)(({ theme }) => ({
 	flexGrow: 1,
 	width: "70%",
+	// justifyContent: "flex-start",
 	overflowY: "auto",
 	padding: theme.spacing(2),
+
+	[theme.breakpoints.down("sm")]: {
+		width: "100%",
+	},
 }));
 
 const PromptWrapper = styled(Box)(({ theme }) => ({
@@ -48,6 +53,10 @@ const PromptWrapper = styled(Box)(({ theme }) => ({
 	width: "70%",
 	padding: theme.spacing(2),
 	height: "100px",
+
+	[theme.breakpoints.down("sm")]: {
+		width: "100%",
+	},
 }));
 
 const FancyTextField = styled(TextField)(({ theme }) => ({
@@ -109,12 +118,10 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 		setInput("");
 	};
 
-	// let's have a wrapper for threedPlaceholder which is going to be at the top right corner of the chat playground
-
 	const ThreeDPlaceHolderWrapper = styled(Box)(({ theme }) => ({
 		position: "absolute",
 		top: theme.spacing(2),
-		right: theme.spacing(2),
+		right: theme.spacing(3),
 		height: "200px",
 		width: "200px",
 	}));

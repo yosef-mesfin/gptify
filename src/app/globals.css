@@ -106,3 +106,7 @@ a {
   }
 }
 
+
+::-webkit-scrollbar {
+  display: none;
+}
