@@ -189,7 +189,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 			<Drawer
 				variant="permanent"
 				open={open}
-				isMobile={isMobile}
+				isMobile={isMobile ?? false}
 				onClose={onToggle}
 			>
 				<Stack sx={{ height: "100%", justifyContent: "space-between" }}>
@@ -223,6 +223,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 						<ChatHistoryItem open={open}>
 							{sampleChatHistory.map((chat) => (
 								<Stack
+									key={chat.id}
 									sx={{
 										display: "flex",
 										flexDirection: "row",
