@@ -30,11 +30,11 @@ const PlaygroundWrapper = styled(Box, {
 	display: "flex",
 	flexDirection: "column",
 	alignItems: "center",
-	padding: theme.spacing(3),
+	padding: `${theme.spacing(3)} 0`,
 	marginLeft: isMobile
 		? 0
 		: open
-		? `calc(240px + ${theme.spacing(8)})`
+		? `calc(260px + ${theme.spacing(8)})`
 		: theme.spacing(8),
 	paddingBottom: theme.spacing(5),
 	height: "100%",
@@ -42,6 +42,9 @@ const PlaygroundWrapper = styled(Box, {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.enteringScreen,
 	}),
+	[theme.breakpoints.between("md", "lg")]: {
+		marginLeft: 0,
+	},
 	[theme.breakpoints.down("md")]: {
 		marginLeft: 0,
 	},
@@ -51,7 +54,6 @@ const ChatBodyWrapper = styled(Box)(({ theme }) => ({
 	flexGrow: 1,
 	width: "70%",
 	overflowY: "auto",
-	padding: theme.spacing(2),
 
 	[theme.breakpoints.down("md")]: {
 		width: "100%",
@@ -74,8 +76,7 @@ const PromptWrapper = styled(Box)(({ theme }) => ({
 const FancyTextField = styled(TextField)(({ theme }) => ({
 	width: "65%",
 	borderRadius: "50px 4px 4px 50px",
-	border: "2px solid rgba(255, 0, 255, 0.3)",
-	background: "#390442f7",
+	background: "#41044cf7",
 	backgroundOrigin: "border-box",
 	backgroundClip: "content-box, border-box",
 	"& .MuiOutlinedInput-root": {
@@ -98,6 +99,14 @@ const FancyTextField = styled(TextField)(({ theme }) => ({
 	"& .MuiInputAdornment-root": {
 		marginRight: theme.spacing(1),
 	},
+
+	[theme.breakpoints.between("md", "lg")]: {
+		width: "100%",
+	},
+
+	[theme.breakpoints.down("md")]: {
+		width: "70%",
+	},
 }));
 
 const PromptIconButtonsWrapper = styled(Box)(({ theme }) => ({
@@ -115,10 +124,15 @@ const PromptIconButtonsWrapper = styled(Box)(({ theme }) => ({
 const ThreeDPlaceHolderWrapper = styled(Box)(({ theme }) => ({
 	position: "absolute",
 	top: theme.spacing(0),
-	right: theme.spacing(3),
+	right: theme.spacing(0),
 	height: "200px",
 	width: "200px",
-	scale: "0.8",
+	// scale: "0.8",
+	[theme.breakpoints.down("lg")]: {
+		scale: "0.8",
+		top: theme.spacing(-2),
+		right: theme.spacing(-2),
+	},
 }));
 
 const FancyIconButton = styled(IconButton)(({ theme }) => ({}));

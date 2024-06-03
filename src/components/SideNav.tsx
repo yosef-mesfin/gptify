@@ -121,14 +121,21 @@ const AddChatButton = styled(Box, {
 })<{ open: boolean }>(({ theme, open }) => ({
 	cursor: "pointer",
 	background: "transparent",
+	display: "flex",
 	alignItems: "center",
-	gap: 2,
+	justifyContent: "center",
+	gap: 1,
 	color: "#88728d",
 	marginBottom: theme.spacing(2),
+	paddingRight: open ? theme.spacing(2) : 0,
+	borderRadius: open ? "24px" : "50%",
+	width: open ? "fit-content" : "48px",
+	border: "1px solid rgba(255, 0, 255, 0.3)",
 
 	"&:hover": {
 		background: "#390442f7",
-		BorderRadius: "16px",
+		borderColor: "rgba(255, 0, 255, 0.7)",
+		boxShadow: "0 0 8px rgba(255, 0, 255, 0.5)",
 	},
 }));
 const ChatHistoryItem = styled("div")<{ open: boolean }>(({ theme, open }) => ({
@@ -188,7 +195,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
 
-			{isMobile && !open && (
+			{!isDesktop && !open && (
 				<DrawerHeader
 					sx={{
 						margin: theme.spacing(0),
@@ -206,7 +213,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 			)}
 
 			<StyledDrawer
-				variant={isMobile ? "temporary" : "permanent"}
+				variant={!isDesktop ? "temporary" : "permanent"}
 				open={open}
 				isMobile={isMobile ?? false}
 				onClose={onToggle}

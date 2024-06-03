@@ -8,6 +8,7 @@ const Root = styled(Container)(({ theme }) => ({
 	width: "100%",
 	height: "100vh",
 	maxWidth: "100% !important",
+	padding: theme.spacing(0),
 
 	[theme.breakpoints.down("md")]: {
 		padding: theme.spacing(0),

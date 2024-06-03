@@ -12,6 +12,12 @@ type Output = {
 	content: string | null;
 };
 
+const PageWrapper = styled(Box)({
+	padding: 0,
+	margin: 0,
+	width: "100%",
+});
+
 const LogoWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
 	position: "fixed",
 	top: theme.spacing(1.5),
@@ -56,7 +62,7 @@ export default function Home() {
 	};
 
 	return (
-		<div
+		<PageWrapper
 			style={{
 				padding: 0,
 				margin: 0,
@@ -72,6 +78,6 @@ export default function Home() {
 				onFinish={handleFinish}
 				currentOutput={currentOutput}
 			/>
-		</div>
+		</PageWrapper>
 	);
 }
