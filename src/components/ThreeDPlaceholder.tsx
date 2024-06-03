@@ -4,7 +4,7 @@ import { TweenMax, Power0 } from "gsap";
 import { styled } from "@mui/material/styles";
 import useResponsive from "@/hooks/useResponsive";
 
-const PlaceholderContainer = styled("div")({
+const PlaceholderContainer = styled("div")(({ theme }) => ({
 	width: "100%",
 	height: "100%",
 	display: "flex",
@@ -13,7 +13,7 @@ const PlaceholderContainer = styled("div")({
 	overflow: "hidden",
 	position: "relative",
 	paddingRight: "10%",
-});
+}));
 
 const ThreeDPlaceholder: React.FC = () => {
 	const mountRef = useRef<HTMLDivElement>(null);
@@ -22,7 +22,9 @@ const ThreeDPlaceholder: React.FC = () => {
 	useEffect(() => {
 		if (isMobile) return;
 
-		let scene: any, camera: any, renderer: any;
+		let scene: THREE.Scene,
+			camera: THREE.PerspectiveCamera,
+			renderer: THREE.WebGLRenderer;
 
 		const init = () => {
 			scene = new THREE.Scene();

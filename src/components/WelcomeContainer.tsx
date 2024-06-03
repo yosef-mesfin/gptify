@@ -10,6 +10,10 @@ const WelcomeContainerWrapper = styled(Container)(({ theme }) => ({
 	flexDirection: "column",
 	alignItems: "center",
 	padding: theme.spacing(5),
+
+	[theme.breakpoints.down("md")]: {
+		padding: theme.spacing(2),
+	},
 }));
 
 const GreetingsContainer = styled(Stack)(({ theme }) => ({
@@ -23,12 +27,20 @@ const Greeting = styled(Typography)(({ theme }) => ({
 	fontWeight: theme.typography.fontWeightBold,
 	WebkitBackgroundClip: "text",
 	WebkitTextFillColor: "transparent",
+
+	[theme.breakpoints.down("md")]: {
+		fontSize: "2.5rem",
+	},
 }));
 
 const Subtitle = styled(Typography)(({ theme }) => ({
 	marginBottom: theme.spacing(2),
 	fontSize: "2rem",
 	color: "#88728d",
+
+	[theme.breakpoints.down("md")]: {
+		fontSize: "1.5rem",
+	},
 }));
 
 const SuggestionBoxWrapper = styled(Box)(({ theme }) => ({
@@ -38,6 +50,19 @@ const SuggestionBoxWrapper = styled(Box)(({ theme }) => ({
 	flexWrap: "wrap",
 	alignItems: "center",
 	gap: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	[theme.breakpoints.down("sm")]: {
+		overflowX: "auto",
+		flexWrap: "nowrap",
+		width: "100%",
+		justifyContent: "flex-start",
+		paddingLeft: `calc(10% - ${theme.spacing(2)})`,
+		"&::-webkit-scrollbar": {
+			display: "none",
+		},
+		"-ms-overflow-style": "none",
+		"scrollbar-width": "none",
+	},
 }));
 
 const BackgroundGlow = styled(Box)(({ theme }) => ({

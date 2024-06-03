@@ -23,6 +23,13 @@ const LogoWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
 		duration: theme.transitions.duration.enteringScreen,
 	}),
 	zIndex: theme.zIndex.drawer + 1,
+
+	// for mobile, I want the logo to be on the top right corner of the screen
+	[theme.breakpoints.down("sm")]: {
+		left: "auto",
+		right: theme.spacing(2),
+		top: theme.spacing(0.5),
+	},
 }));
 
 export default function Home() {
@@ -58,7 +65,7 @@ export default function Home() {
 		>
 			<SideNav open={openDrawer} onToggle={handleToggleDrawer} />
 			<LogoWrapper open={openDrawer}>
-				<Image src="/assets/logo43.png" alt="logo" width="40" height="45" />
+				<Image src="/assets/logo43.png" alt="logo" width="40" height="50" />
 			</LogoWrapper>
 			<ChatPlayground
 				open={openDrawer}

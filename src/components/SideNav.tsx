@@ -2,7 +2,7 @@
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
+import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
@@ -78,13 +78,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	...theme.mixins.toolbar,
 }));
 
-const Drawer = styled(MuiDrawer, {
-	shouldForwardProp: (prop) => prop !== "open" && prop !== "isMobile",
-})<{ open: boolean; isMobile: boolean }>(({ theme, open, isMobile }) => ({
-	width: isMobile ? mobileDrawerWidth : drawerWidth,
+const StyledDrawer = styled(Drawer, {
+	shouldForwardProp: (prop) => prop !== "isMobile",
+})<{
+	isMobile: boolean;
+	open: boolean;
+}>(({ theme, open, isMobile }) => ({
 	flexShrink: 0,
 	whiteSpace: "nowrap",
 	boxSizing: "border-box",
+
 	...(open && {
 		...openedMixin(theme, isMobile),
 		"& .MuiDrawer-paper": {
@@ -92,12 +95,12 @@ const Drawer = styled(MuiDrawer, {
 			width: isMobile ? mobileDrawerWidth : drawerWidth,
 		},
 	}),
+
 	...(!open && {
 		...closedMixin(theme),
 		"& .MuiDrawer-paper": {
 			...closedMixin(theme),
 			width: `calc(${theme.spacing(7)} + 1px)`,
-			// width: isMobile ? 0 : `calc(${theme.spacing(7)} + 1px)`,
 		},
 	}),
 }));
@@ -113,7 +116,9 @@ const ChatHistoryWrapper = styled(Box, {
 	height: "100%",
 }));
 
-const AddChatButton = styled(Button)<{ open: boolean }>(({ theme, open }) => ({
+const AddChatButton = styled(Box, {
+	shouldForwardProp: (prop) => prop !== "open",
+})<{ open: boolean }>(({ theme, open }) => ({
 	cursor: "pointer",
 	background: "transparent",
 	alignItems: "center",
@@ -178,16 +183,30 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 	const isMobile = useResponsive("down", "sm");
 	const isDesktop = useResponsive("up", "md");
 	const isMounted = useIsMounted();
-	console.log("🚀 ~ SideNav ~ isMounted:", isMounted());
-	console.log("🚀 ~ SideNav ~ isMobile:", isMobile);
-
-	const [openState, setOpenState] = React.useState(false);
 
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
-			<Drawer
-				variant="permanent"
+
+			{isMobile && !open && (
+				<DrawerHeader
+					sx={{
+						margin: theme.spacing(0),
+						position: "fixed",
+					}}
+				>
+					<IconButton
+						color="inherit"
+						sx={{ color: "white" }}
+						onClick={onToggle}
+					>
+						{<MenuIcon />}
+					</IconButton>
+				</DrawerHeader>
+			)}
+
+			<StyledDrawer
+				variant={isMobile ? "temporary" : "permanent"}
 				open={open}
 				isMobile={isMobile ?? false}
 				onClose={onToggle}
@@ -210,7 +229,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 							</IconButton>
 							{open ? "Add New Chat" : null}
 						</AddChatButton>
-						{open ?? (
+						{open && (
 							<Typography
 								sx={{
 									fontSize: "1rem",
@@ -286,7 +305,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 						))}
 					</List>
 				</Stack>
-			</Drawer>
+			</StyledDrawer>
 		</Box>
 	);
 }

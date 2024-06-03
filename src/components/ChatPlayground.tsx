@@ -7,9 +7,9 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import FriendlyMic from "./FriendlyMic";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-// import ThreeDPlaceholder from "./ThreeDPlaceholder";
 import WelcomeContainer from "./WelcomeContainer";
 import ThreeDPlaceholder from "./ThreeDPlaceholder";
+import useResponsive from "@/hooks/useResponsive";
 
 type ChatPlaygroundProps = {
 	open: boolean;
@@ -20,29 +20,40 @@ type ChatPlaygroundProps = {
 	};
 };
 
-const PlaygroundWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
+const PlaygroundWrapper = styled(Box, {
+	shouldForwardProp: (prop) => prop !== "open" && prop !== "isMobile",
+})<{
+	open: boolean;
+	isMobile: boolean | undefined;
+}>(({ theme, open, isMobile }) => ({
 	flexGrow: 1,
 	display: "flex",
 	flexDirection: "column",
 	alignItems: "center",
 	padding: theme.spacing(3),
-	marginLeft: open ? `calc(240px + ${theme.spacing(8)})` : theme.spacing(15),
+	marginLeft: isMobile
+		? 0
+		: open
+		? `calc(240px + ${theme.spacing(8)})`
+		: theme.spacing(8),
 	paddingBottom: theme.spacing(5),
 	height: "100%",
 	transition: theme.transitions.create(["margin-left", "width"], {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.enteringScreen,
 	}),
+	[theme.breakpoints.down("md")]: {
+		marginLeft: 0,
+	},
 }));
 
 const ChatBodyWrapper = styled(Box)(({ theme }) => ({
 	flexGrow: 1,
 	width: "70%",
-	// justifyContent: "flex-start",
 	overflowY: "auto",
 	padding: theme.spacing(2),
 
-	[theme.breakpoints.down("sm")]: {
+	[theme.breakpoints.down("md")]: {
 		width: "100%",
 	},
 }));
@@ -54,8 +65,9 @@ const PromptWrapper = styled(Box)(({ theme }) => ({
 	padding: theme.spacing(2),
 	height: "100px",
 
-	[theme.breakpoints.down("sm")]: {
+	[theme.breakpoints.down("md")]: {
 		width: "100%",
+		Padding: theme.spacing(1),
 	},
 }));
 
@@ -100,6 +112,15 @@ const PromptIconButtonsWrapper = styled(Box)(({ theme }) => ({
 	height: "100%",
 }));
 
+const ThreeDPlaceHolderWrapper = styled(Box)(({ theme }) => ({
+	position: "absolute",
+	top: theme.spacing(0),
+	right: theme.spacing(3),
+	height: "200px",
+	width: "200px",
+	scale: "0.8",
+}));
+
 const FancyIconButton = styled(IconButton)(({ theme }) => ({}));
 
 const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
@@ -118,16 +139,10 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 		setInput("");
 	};
 
-	const ThreeDPlaceHolderWrapper = styled(Box)(({ theme }) => ({
-		position: "absolute",
-		top: theme.spacing(2),
-		right: theme.spacing(3),
-		height: "200px",
-		width: "200px",
-	}));
+	const isMobile = useResponsive("down", "sm");
 
 	return (
-		<PlaygroundWrapper open={open}>
+		<PlaygroundWrapper open={open} isMobile={isMobile}>
 			<ChatBodyWrapper>
 				{/* <ThreeDPlaceholder /> */}
 				<WelcomeContainer userName="Rodya" />
