@@ -86,6 +86,10 @@ const SuggestionBox = styled(Box)(({ theme }) => ({
 	paddingTop: theme.spacing(1),
 	paddingLeft: theme.spacing(1),
 	gap: theme.spacing(1),
+
+	"&:hover": {
+		background: "#010c31",
+	},
 }));
 
 const Suggestions = [

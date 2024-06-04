@@ -3,8 +3,9 @@ import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MicIcon from "@mui/icons-material/Mic";
 import { useEffect, useRef } from "react";
+import theme from "@/themes";
 
-const ButtonStyle = styled(Button)({
+const ButtonStyle = styled(Button)(({ theme }) => ({
 	alignSelf: "center",
 	display: "flex",
 	justifyContent: "center",
@@ -18,7 +19,13 @@ const ButtonStyle = styled(Button)({
 	"&:hover": {
 		boxShadow: "0 0 0.5rem #fff",
 	},
-});
+
+	[theme.breakpoints.down("md")]: {
+		height: "64px",
+		width: "64px",
+		minWidth: "64px",
+	},
+}));
 
 // give me pinkish color
 

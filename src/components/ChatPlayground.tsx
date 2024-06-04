@@ -69,19 +69,27 @@ const PromptWrapper = styled(Box)(({ theme }) => ({
 
 	[theme.breakpoints.down("md")]: {
 		width: "100%",
+		height: "90px",
 		Padding: theme.spacing(1),
+		marginBottom: theme.spacing(2),
 	},
 }));
 
 const FancyTextField = styled(TextField)(({ theme }) => ({
-	width: "65%",
+	width: "60%",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
 	borderRadius: "50px 4px 4px 50px",
 	background: "#41044cf7",
 	backgroundOrigin: "border-box",
 	backgroundClip: "content-box, border-box",
 	"& .MuiOutlinedInput-root": {
 		color: "white",
+		height: "100%",
+		width: "100%",
 		borderRadius: "50px 0 0 50px",
+		paddingLeft: theme.spacing(1),
 		"&:hover fieldset": {
 			borderColor: "rgba(255, 0, 255, 0.5)",
 		},
@@ -94,7 +102,7 @@ const FancyTextField = styled(TextField)(({ theme }) => ({
 		},
 	},
 	"& .MuiOutlinedInput-input": {
-		padding: theme.spacing(2.7),
+		height: "100%",
 	},
 	"& .MuiInputAdornment-root": {
 		marginRight: theme.spacing(1),
@@ -135,7 +143,27 @@ const ThreeDPlaceHolderWrapper = styled(Box)(({ theme }) => ({
 	},
 }));
 
-const FancyIconButton = styled(IconButton)(({ theme }) => ({}));
+const FancyIconButton = styled(IconButton)(({ theme }) => ({
+	borderRadius: "50%",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	height: "50px",
+	width: "50px",
+	margin: theme.spacing(0.5),
+	"&:hover": {
+		background: "#390442f7",
+		boxShadow: "0 0 8px rgba(255, 0, 255, 0.5)",
+	},
+	"&:hover svg": {
+		color: "#ff00ff",
+	},
+
+	[theme.breakpoints.down("md")]: {
+		height: "40px",
+		width: "40px",
+	},
+}));
 
 const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 	open,
@@ -161,6 +189,7 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 				{/* <ThreeDPlaceholder /> */}
 				<WelcomeContainer userName="Rodya" />
 			</ChatBodyWrapper>
+			{isMobile && <FriendlyMic onFinish={onFinish} />}
 			<PromptWrapper>
 				<FancyTextField
 					variant="outlined"
@@ -174,19 +203,17 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 					}}
 				/>
 				<PromptIconButtonsWrapper>
-					<FancyIconButton sx={{ color: "#88728d" }}>
+					<FancyIconButton sx={{ color: "#88728d", marginLeft: ".5rem" }}>
 						<AttachFileIcon sx={{ fontSize: "2rem" }} />
 					</FancyIconButton>
 					<FancyIconButton
 						sx={{
 							color: "#88728d",
-							paddingLeft: "0",
-							marginRight: ".5rem",
 						}}
 					>
 						<AddPhotoAlternateIcon sx={{ fontSize: "2rem" }} />
 					</FancyIconButton>
-					<FriendlyMic onFinish={onFinish} />
+					{!isMobile && <FriendlyMic onFinish={onFinish} />}
 				</PromptIconButtonsWrapper>
 			</PromptWrapper>
 			<ThreeDPlaceHolderWrapper>

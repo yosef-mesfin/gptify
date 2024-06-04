@@ -22,7 +22,6 @@ import Tooltip from "@mui/material/Tooltip";
 import useResponsive from "@/hooks/useResponsive";
 import useIsMounted from "@/hooks/useIsMounted";
 import ChatIcon from "@mui/icons-material/Chat";
-import Button from "@mui/material/Button";
 
 const drawerWidth = 260;
 const mobileDrawerWidth = "80vw";
@@ -121,6 +120,7 @@ const AddChatButton = styled(Box, {
 })<{ open: boolean }>(({ theme, open }) => ({
 	cursor: "pointer",
 	background: "transparent",
+	alignSelf: "center",
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
@@ -142,22 +142,18 @@ const ChatHistoryItem = styled("div")<{ open: boolean }>(({ theme, open }) => ({
 	display: open ? "flex" : "none",
 	flexDirection: "column",
 	justifyContent: "flex-start",
-	padding: theme.spacing(1),
-
-	"& > *": {
-		transition: "opacity 0.3s",
-	},
-	"&:hover": {
-		"& > *": {
-			opacity: 1,
-		},
-	},
+	paddingTop: theme.spacing(1),
+	color: "#88728d",
 }));
 
 const ChatHistoryItemText = styled(Typography)(({ theme }) => ({
 	color: "#cab8ce",
 	paddingTop: theme.spacing(1),
 	paddingBottom: theme.spacing(1),
+	cursor: "pointer",
+	"&:hover": {
+		color: "white",
+	},
 	...theme.typography.body1,
 }));
 
@@ -255,12 +251,16 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 										flexDirection: "row",
 										alignItems: "center",
 										gap: 1,
+										padding: `0 ${theme.spacing(1)}`,
+										"&:hover": {
+											background: "#390442f7",
+										},
 									}}
 								>
 									<ChatIcon
-										sx={{
-											color: "#88728d",
-										}}
+									// sx={{
+									// 	color: "#88728d",
+									// }}
 									/>
 									<ChatHistoryItemText key={chat.id}>
 										{chat.query.length > 25
