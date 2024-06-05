@@ -69,9 +69,16 @@ const PromptWrapper = styled(Box)(({ theme }) => ({
 
 	[theme.breakpoints.down("md")]: {
 		width: "100%",
-		height: "90px",
+		// height: "90px",
 		Padding: theme.spacing(1),
 		marginBottom: theme.spacing(2),
+	},
+
+	[theme.breakpoints.down("sm")]: {
+		justifyContent: "space-between",
+		gap: theme.spacing(1),
+		alignItems: "flex-end",
+		height: "fit-content",
 	},
 }));
 
@@ -101,9 +108,9 @@ const FancyTextField = styled(TextField)(({ theme }) => ({
 			borderWidth: "0",
 		},
 	},
-	"& .MuiOutlinedInput-input": {
-		height: "100%",
-	},
+	// "& .MuiOutlinedInput-input": {
+	// 	height: "100%",
+	// },
 	"& .MuiInputAdornment-root": {
 		marginRight: theme.spacing(1),
 	},
@@ -114,6 +121,11 @@ const FancyTextField = styled(TextField)(({ theme }) => ({
 
 	[theme.breakpoints.down("md")]: {
 		width: "70%",
+	},
+	[theme.breakpoints.down("sm")]: {
+		width: "100%",
+		borderRadius: "50px",
+		height: "70px",
 	},
 }));
 
@@ -127,6 +139,14 @@ const PromptIconButtonsWrapper = styled(Box)(({ theme }) => ({
 	paddingRight: 0,
 	marginLeft: 0,
 	height: "100%",
+
+	[theme.breakpoints.down("sm")]: {
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		background: "transparent",
+		borderRadius: "0px",
+		gap: theme.spacing(0.5),
+	},
 }));
 
 const ThreeDPlaceHolderWrapper = styled(Box)(({ theme }) => ({
@@ -151,6 +171,7 @@ const FancyIconButton = styled(IconButton)(({ theme }) => ({
 	height: "50px",
 	width: "50px",
 	margin: theme.spacing(0.5),
+	color: "#88728d",
 	"&:hover": {
 		background: "#390442f7",
 		boxShadow: "0 0 8px rgba(255, 0, 255, 0.5)",
@@ -189,7 +210,7 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 				{/* <ThreeDPlaceholder /> */}
 				<WelcomeContainer userName="Rodya" />
 			</ChatBodyWrapper>
-			{isMobile && <FriendlyMic onFinish={onFinish} />}
+			{/* {isMobile && <FriendlyMic onFinish={onFinish} />} */}
 			<PromptWrapper>
 				<FancyTextField
 					variant="outlined"
@@ -203,14 +224,11 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 					}}
 				/>
 				<PromptIconButtonsWrapper>
-					<FancyIconButton sx={{ color: "#88728d", marginLeft: ".5rem" }}>
+					{isMobile && <FriendlyMic onFinish={onFinish} />}
+					<FancyIconButton>
 						<AttachFileIcon sx={{ fontSize: "2rem" }} />
 					</FancyIconButton>
-					<FancyIconButton
-						sx={{
-							color: "#88728d",
-						}}
-					>
+					<FancyIconButton>
 						<AddPhotoAlternateIcon sx={{ fontSize: "2rem" }} />
 					</FancyIconButton>
 					{!isMobile && <FriendlyMic onFinish={onFinish} />}

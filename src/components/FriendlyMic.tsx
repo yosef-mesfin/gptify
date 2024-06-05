@@ -3,7 +3,6 @@ import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MicIcon from "@mui/icons-material/Mic";
 import { useEffect, useRef } from "react";
-import theme from "@/themes";
 
 const ButtonStyle = styled(Button)(({ theme }) => ({
 	alignSelf: "center",
@@ -26,8 +25,6 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 		minWidth: "64px",
 	},
 }));
-
-// give me pinkish color
 
 const MicIconStyle = styled(MicIcon)({
 	filter: "drop-shadow(0 0 .1rem #fff)",
