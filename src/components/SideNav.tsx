@@ -186,6 +186,17 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 	const isMobile = useResponsive("down", "sm");
 	const isDesktop = useResponsive("up", "md");
 	const isMounted = useIsMounted();
+	const [shouldRender, setShouldRender] = React.useState(false);
+
+	React.useEffect(() => {
+		if (isMounted()) {
+			setShouldRender(true);
+		}
+	}, [isMounted]);
+
+	if (!shouldRender) {
+		return null;
+	}
 
 	return (
 		<Box sx={{ display: "flex" }}>

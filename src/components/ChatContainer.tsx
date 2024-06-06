@@ -113,7 +113,7 @@ export default function ChatContainer({
 				<Question>{question}</Question>
 			</QuestionContainer>
 			<AnswerContainer>
-				<Stack sx={{ gap: theme.spacing(1), alignItems: "center" }}>
+				<Stack sx={{ gap: "theme.spacing(1)", alignItems: "center" }}>
 					<GptfyIcon>
 						<Image
 							src="/assets/logo43.png"
