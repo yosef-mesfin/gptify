@@ -16,6 +16,7 @@ const PageWrapper = styled(Box)({
 	padding: 0,
 	margin: 0,
 	width: "100%",
+	height: "100vh",
 });
 
 const LogoWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
@@ -30,7 +31,6 @@ const LogoWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
 	}),
 	zIndex: theme.zIndex.drawer + 1,
 
-	// for mobile, I want the logo to be on the top right corner of the screen
 	[theme.breakpoints.down("sm")]: {
 		left: "auto",
 		right: theme.spacing(2),

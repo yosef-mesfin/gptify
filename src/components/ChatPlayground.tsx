@@ -10,6 +10,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import WelcomeContainer from "./WelcomeContainer";
 import ThreeDPlaceholder from "./ThreeDPlaceholder";
 import useResponsive from "@/hooks/useResponsive";
+import ChatContainer from "./ChatContainer";
 
 type ChatPlaygroundProps = {
 	open: boolean;
@@ -170,7 +171,6 @@ const FancyIconButton = styled(IconButton)(({ theme }) => ({
 	justifyContent: "center",
 	height: "50px",
 	width: "50px",
-	margin: theme.spacing(0.5),
 	color: "#88728d",
 	"&:hover": {
 		background: "#390442f7",
@@ -192,6 +192,7 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 	currentOutput,
 }) => {
 	const [input, setInput] = useState("");
+	const [chat, setChat] = useState(false);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setInput(event.target.value);
@@ -204,20 +205,32 @@ const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 
 	const isMobile = useResponsive("down", "sm");
 
+	const sampleQuestion = "What can you do?";
+	const sampleAnswer =
+		"I can help you with a variety of tasks, such as answering questions, providing information, and even generating creative content. I'm here to assist you in any way I can. If you have any questions or need help with something, feel free to ask! ";
+
 	return (
 		<PlaygroundWrapper open={open} isMobile={isMobile}>
 			<ChatBodyWrapper>
 				{/* <ThreeDPlaceholder /> */}
-				<WelcomeContainer userName="Rodya" />
+				{!chat ? (
+					<WelcomeContainer userName="Rodya" />
+				) : (
+					<ChatContainer question={sampleQuestion} answer={sampleAnswer} />
+				)}
 			</ChatBodyWrapper>
-			{/* {isMobile && <FriendlyMic onFinish={onFinish} />} */}
 			<PromptWrapper>
 				<FancyTextField
 					variant="outlined"
 					placeholder="Enter your prompt here..."
+					value={input}
+					onChange={handleInputChange}
 					InputProps={{
-						endAdornment: (
-							<IconButton sx={{ color: "#88728d" }}>
+						endAdornment: input && (
+							<IconButton
+								sx={{ color: "#88728d" }}
+								onClick={() => setChat(!chat)}
+							>
 								<SendIcon />
 							</IconButton>
 						),

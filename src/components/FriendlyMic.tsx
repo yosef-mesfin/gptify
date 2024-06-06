@@ -14,7 +14,6 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 	height: "93%",
 	width: "100%",
 	minWidth: "64px",
-	boxShadow: "0 0 0.3rem #fff",
 	"&:hover": {
 		boxShadow: "0 0 0.5rem #fff",
 	},

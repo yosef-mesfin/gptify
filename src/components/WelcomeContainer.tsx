@@ -1,5 +1,5 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
+import { styled, keyframes } from "@mui/material/styles";
 import { IconButton, Container, Typography, Box, Stack } from "@mui/material";
 import theme from "@/themes";
 
@@ -90,7 +90,21 @@ const SuggestionBox = styled(Box)(({ theme }) => ({
 	"&:hover": {
 		background: "#010c31",
 	},
+
+	"&:hover .iconButton": {
+		animation: `${rotateAnimation} 3s linear infinite`,
+		scale: "1.2",
+	},
 }));
+
+const rotateAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const Suggestions = [
 	{
@@ -130,7 +144,7 @@ const WelcomeContainer: React.FC<WelcomeContainerProps> = ({ userName }) => {
 				{Suggestions.map((suggestion) => (
 					<BackgroundGlow key={suggestion.id}>
 						<SuggestionBox>
-							<IconButton>{suggestion.icon}</IconButton>
+							<IconButton className="iconButton">{suggestion.icon}</IconButton>
 							<Typography
 								sx={{
 									flexGrow: "1",
