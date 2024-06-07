@@ -38,7 +38,7 @@ const LogoWrapper = styled(Box)<{ open: boolean }>(({ theme, open }) => ({
 	},
 }));
 
-export default async function Page() {
+export default function Page() {
 	const [openDrawer, setOpenDrawer] = useState(false);
 
 	const handleToggleDrawer = () => {
