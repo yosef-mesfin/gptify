@@ -78,6 +78,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 	display: "flex",
 	justifyContent: "flex-end",
 	padding: theme.spacing(0, 1),
+	zIndex: theme.zIndex.drawer + 10,
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 }));
@@ -221,6 +222,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 					sx={{
 						margin: theme.spacing(0),
 						position: "fixed",
+						zIndex: "2",
 					}}
 				>
 					<IconButton
