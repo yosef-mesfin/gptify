@@ -7,7 +7,10 @@ import RootContainer from "@/components/RootContainer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "GPTify",
+	title: {
+		template: "%s | GPTify",
+		default: "GPTify",
+	},
 	description: "GPT power unleashed with speech-to-text and text-to-speech",
 };
 
