@@ -20,6 +20,10 @@ const ThreeDPlaceholder: React.FC = () => {
 	const isMobile = useResponsive("down", "sm");
 
 	useEffect(() => {
+		console.log("ThreeDPlaceholder");
+	}, []);
+
+	useEffect(() => {
 		if (isMobile) return;
 
 		let scene: THREE.Scene,

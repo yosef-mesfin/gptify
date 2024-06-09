@@ -1,13 +1,15 @@
 "use client";
+import { useMemo } from "react";
 import theme from "../themes";
 import { ThemeProvider } from "@mui/material";
 
 type ThemeProviderClientProps = {
-  children: React.ReactNode;
+	children: React.ReactNode;
 };
 
 export default function ThemeProviderClient({
-  children,
+	children,
 }: ThemeProviderClientProps) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+	const memoizedTheme = useMemo(() => theme, []);
+	return <ThemeProvider theme={memoizedTheme}>{children}</ThemeProvider>;
 }

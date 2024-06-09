@@ -1,27 +1,32 @@
 "use client";
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import AddIcon from "@mui/icons-material/Add";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
-import { Stack, Typography } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import {
+	Stack,
+	Typography,
+	Box,
+	CssBaseline,
+	Drawer,
+	IconButton,
+	List,
+	ListItem,
+	ListItemButton,
+	ListItemText,
+	ListItemIcon,
+	Tooltip,
+	Divider,
+} from "@mui/material";
+
 import useResponsive from "@/hooks/useResponsive";
 import useIsMounted from "@/hooks/useIsMounted";
 import ChatIcon from "@mui/icons-material/Chat";
+import Link from "next/link";
 
 const drawerWidth = 260;
 const mobileDrawerWidth = "80vw";
@@ -182,11 +187,20 @@ interface SideNavProps {
 }
 
 export default function SideNav({ onToggle, open }: SideNavProps) {
+	React.useEffect(() => {
+		console.log("SideNav");
+	}, []);
+
 	const theme = useTheme();
 	const isMobile = useResponsive("down", "sm");
 	const isDesktop = useResponsive("up", "md");
 	const isMounted = useIsMounted();
 	const [shouldRender, setShouldRender] = React.useState(false);
+	const [openDrawer, setOpenDrawer] = React.useState(false);
+
+	const handleToggleDrawer = () => {
+		setOpenDrawer(!openDrawer);
+	};
 
 	React.useEffect(() => {
 		if (isMounted()) {
@@ -238,10 +252,12 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 					<Divider />
 					<ChatHistoryWrapper open={open}>
 						<AddChatButton open={open}>
-							<IconButton color="inherit" sx={{ color: "white" }}>
-								<AddIcon />
-							</IconButton>
-							{open ? "Add New Chat" : null}
+							<Link href="/chat">
+								<IconButton color="inherit" sx={{ color: "white" }}>
+									<AddIcon />
+								</IconButton>
+								{open ? "Add New Chat" : null}
+							</Link>
 						</AddChatButton>
 						{open && (
 							<Typography
@@ -268,15 +284,13 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 										},
 									}}
 								>
-									<ChatIcon
-									// sx={{
-									// 	color: "#88728d",
-									// }}
-									/>
+									<ChatIcon />
 									<ChatHistoryItemText key={chat.id}>
-										{chat.query.length > 25
-											? chat.query.slice(0, 25) + "..."
-											: chat.query}
+										<Link href={`/chat/${chat.id}`}>
+											{chat.query.length > 25
+												? chat.query.slice(0, 25) + "..."
+												: chat.query}
+										</Link>
 									</ChatHistoryItemText>
 								</Stack>
 							))}
