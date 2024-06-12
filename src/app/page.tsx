@@ -1,16 +1,33 @@
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import Stack from "@mui/material/Stack";
+"use client";
+import Box from "@mui/material/Box";
 import Image from "next/image";
 import {
 	FadeInLink,
 	Greeting,
 	PageWrapper,
 } from "@/components/landing page/styled";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { redirect } from "next/navigation";
+import theme from "@/themes";
 
 export default function Home() {
+	const { user, error, isLoading } = useUser();
+
+	// if (isLoading) {
+	// 	return <PageWrapper>Loading...</PageWrapper>;
+	// }
+
+	// if (error) {
+	// 	return <PageWrapper>{error.message}</PageWrapper>;
+	// }
+
+	if (user) {
+		redirect("/chat");
+	}
+
 	return (
 		<PageWrapper>
-			<Stack
+			<Box
 				style={{
 					display: "flex",
 					flexDirection: "column",
@@ -27,15 +44,18 @@ export default function Home() {
 					height="80"
 				/>
 				<Greeting>Welcome to GPTify</Greeting>
-				<FadeInLink href="/chat">
-					Go To Chat
-					<KeyboardDoubleArrowRightIcon
-						style={{
-							fontSize: "2.5rem",
-						}}
-					/>
-				</FadeInLink>
-			</Stack>
+				<Box
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						gap: "1rem",
+						marginTop: theme.spacing(2),
+					}}
+				>
+					<FadeInLink href="/api/auth/login">Login</FadeInLink>
+					<FadeInLink href="/api/auth/signup">Sign up</FadeInLink>
+				</Box>
+			</Box>
 		</PageWrapper>
 	);
 }

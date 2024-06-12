@@ -44,11 +44,11 @@ export const FadeInLink = styled(Link)(({ theme }) => ({
 	alignItems: "center",
 	justifyContent: "center",
 	color: "#88728d",
-	marginBottom: theme.spacing(3),
-	padding: theme.spacing(1) + " " + theme.spacing(2),
+	padding: theme.spacing(1),
 	border: "1px solid rgba(255, 0, 255, 0.3)",
 	borderRadius: "24px",
-	fontSize: "1.5rem",
+	fontSize: "1.2rem",
+	width: "120px",
 
 	"&:hover": {
 		background: "#390442f7",

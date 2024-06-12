@@ -1,8 +1,13 @@
 "use client";
+import "regenerator-runtime/runtime";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MicIcon from "@mui/icons-material/Mic";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import Alert from "@mui/material/Alert";
+import SpeechRecognition, {
+	useSpeechRecognition,
+} from "react-speech-recognition";
 
 const ButtonStyle = styled(Button)(({ theme }) => ({
 	alignSelf: "center",
@@ -36,32 +41,45 @@ type FriendlyMicProps = Readonly<{
 }>;
 
 export default function FriendlyMic({ onFinish }: FriendlyMicProps) {
-	const recognition = useRef<any>(null);
+	const {
+		transcript,
+		listening,
+		resetTranscript,
+		browserSupportsSpeechRecognition,
+	} = useSpeechRecognition();
+	const [isClient, setIsClient] = useState(false);
 
 	const handleClick = () => {
-		if (recognition.current) {
-			recognition.current.start();
+		if (listening) {
+			SpeechRecognition.stopListening();
+		} else {
+			SpeechRecognition.startListening();
 		}
 	};
 
 	useEffect(() => {
-		// recognition.onstart = function () {
-		//   action.innerHTML = ;
-		// };
+		console.log("FriendlyMic component rendered");
+	});
 
-		// recognition.onspeechend = function () {
-		//   recognition.stop();
-		// };
+	useEffect(() => {
+		setIsClient(true);
+	}, [browserSupportsSpeechRecognition]);
 
-		recognition.current = new (window.SpeechRecognition ||
-			window.webkitSpeechRecognition)();
+	useEffect(() => {
+		if (!listening && transcript) {
+			console.log("transcript", transcript);
+			onFinish(transcript);
+			resetTranscript();
+		}
+	}, [listening, transcript, onFinish, resetTranscript]);
 
-		recognition.current.onresult = function (event: any) {
-			const transcript = event.results[0][0].transcript;
-			const confidence = event.results[0][0].confidence;
-			onFinish && onFinish(transcript);
-		};
-	}, [recognition, onFinish]);
+	if (isClient && !browserSupportsSpeechRecognition) {
+		return (
+			<Alert severity="error">
+				Your browser does not support speech recognition
+			</Alert>
+		);
+	}
 
 	return (
 		<ButtonStyle onClick={handleClick}>

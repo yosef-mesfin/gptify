@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import ChatContainer from "@/components/chat/ChatContainer";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -22,24 +22,62 @@ const sampleQuestion = "What can you do?";
 const sampleAnswer =
 	"I can help you with a variety of tasks, such as answering questions, providing information, and even generating creative content. I'm here to assist you in any way I can. If you have any questions or need help with something, feel free to ask! ";
 
+type CurrentOutput = {
+	question: string;
+	answer: string;
+};
+
 export default function Page({ params }: { params: { chatId: string } }) {
 	const [input, setInput] = useState("");
 
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setInput(event.target.value);
+	const [currentOutput, setCurrentOutput] = useState<CurrentOutput>({
+		question: sampleQuestion,
+		answer: sampleAnswer,
+	});
+
+	// const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setInput(event.target.value);
+	// };
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		console.log("submitted");
+	};
+
+	const handleKeyDown = async (
+		event: React.KeyboardEvent<HTMLInputElement>
+	) => {
+		if (event.key === "Enter" && input) {
+			await handleFinish(input);
+			setInput("");
+		}
 	};
 
 	const isMobile = useResponsive("down", "sm");
-	const handleFinish = async (query: string) => {
+
+	const handleFinish = useCallback(async (query: string) => {
+		console.log("query", query);
 		const result = await gpt3(query);
+		console.log("result", result);
 		if (result.length === 0) {
 			return;
 		}
-	};
+		setCurrentOutput({
+			question: query,
+			answer: result[0].message.content as string,
+		});
+	}, []);
+
+	// useEffect(() => {
+	// 	console.log("Page component rendered");
+	// });
+
 	return (
 		<PlaygroundWrapper isMobile={isMobile}>
 			<ChatBodyWrapper>
-				<ChatContainer question={sampleQuestion} answer={sampleAnswer} />
+				<ChatContainer
+					question={currentOutput.question}
+					answer={currentOutput.answer}
+				/>
 			</ChatBodyWrapper>
 
 			<PromptWrapper>
@@ -47,7 +85,8 @@ export default function Page({ params }: { params: { chatId: string } }) {
 					variant="outlined"
 					placeholder="Enter your prompt here..."
 					value={input}
-					onChange={handleInputChange}
+					// onChange={handleInputChange}
+					onKeyDown={handleKeyDown}
 					InputProps={{
 						endAdornment: input && (
 							<Link href={`/chat/123`}>

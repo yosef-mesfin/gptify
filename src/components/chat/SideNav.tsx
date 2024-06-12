@@ -7,6 +7,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import {
 	Stack,
 	Typography,
@@ -35,14 +36,22 @@ const BottomDrawerElements = [
 	{
 		text: "Account",
 		icon: <AccountBoxIcon />,
+		onClick: null,
 	},
 	{
 		text: "Help",
 		icon: <HelpCenterIcon />,
+		onClick: null,
 	},
 	{
 		text: "Settings",
 		icon: <SettingsIcon />,
+		onClick: null,
+	},
+	{
+		text: "Log Out",
+		icon: <PowerSettingsNewIcon />,
+		onClick: "logout",
 	},
 ];
 
@@ -188,19 +197,16 @@ interface SideNavProps {
 }
 
 export default function SideNav({ onToggle, open }: SideNavProps) {
-	React.useEffect(() => {
-		console.log("SideNav");
-	}, []);
-
 	const theme = useTheme();
 	const isMobile = useResponsive("down", "sm");
 	const isDesktop = useResponsive("up", "md");
 	const isMounted = useIsMounted();
 	const [shouldRender, setShouldRender] = React.useState(false);
-	const [openDrawer, setOpenDrawer] = React.useState(false);
 
-	const handleToggleDrawer = () => {
-		setOpenDrawer(!openDrawer);
+	const handleClick = (onClickAction: string) => {
+		if (onClickAction === "logout") {
+			window.location.href = "/api/auth/logout";
+		}
 	};
 
 	React.useEffect(() => {
@@ -318,6 +324,7 @@ export default function SideNav({ onToggle, open }: SideNavProps) {
 											px: 2.5,
 											color: "white",
 										}}
+										onClick={() => handleClick(element.onClick as string)}
 									>
 										<ListItemIcon
 											sx={{
