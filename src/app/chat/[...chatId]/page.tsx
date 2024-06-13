@@ -67,10 +67,6 @@ export default function Page({ params }: { params: { chatId: string } }) {
 		});
 	}, []);
 
-	// useEffect(() => {
-	// 	console.log("Page component rendered");
-	// });
-
 	return (
 		<PlaygroundWrapper isMobile={isMobile}>
 			<ChatBodyWrapper>
