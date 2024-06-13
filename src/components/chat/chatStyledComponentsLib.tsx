@@ -117,6 +117,7 @@ export const PlaygroundWrapper = styled(Box, {
 	marginLeft: isMobile ? 0 : theme.spacing(5),
 	paddingBottom: theme.spacing(5),
 	height: "100%",
+	width: "100%",
 	transition: theme.transitions.create(["margin-left", "width"], {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.enteringScreen,
