@@ -204,7 +204,10 @@ export const FancyTextField = styled(TextField)(({ theme }) => ({
 	[theme.breakpoints.down("sm")]: {
 		width: "100%",
 		borderRadius: "50px",
-		height: "70px",
+		height: "65px",
+		"& .MuiOutlinedInput-root": {
+			borderRadius: "50px",
+		},
 	},
 }));
 
@@ -225,6 +228,7 @@ export const PromptIconButtonsWrapper = styled(Box)(({ theme }) => ({
 		background: "transparent",
 		borderRadius: "0px",
 		gap: theme.spacing(0.5),
+		marginBottom: theme.spacing(1),
 	},
 }));
 
