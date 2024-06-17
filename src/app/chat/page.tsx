@@ -8,6 +8,7 @@ export default function Page() {
 		if (result.length === 0) {
 			return;
 		}
+		console.log("result", result);
 	};
 
 	return <ChatPlayground onFinish={handleFinish} />;

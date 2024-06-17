@@ -10,7 +10,7 @@ import {
 	Answer,
 	GptfyIcon,
 	ReadAnswer,
-} from "./chatStyledComponentsLib";
+} from "../chatStyledComponentsLib";
 
 type ChatContainerProps = Readonly<{
 	question: string;

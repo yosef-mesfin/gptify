@@ -161,8 +161,21 @@ export const PromptWrapper = styled(Box)(({ theme }) => ({
 	},
 }));
 
-export const FancyTextField = styled(TextField)(({ theme }) => ({
+export const StyledForm = styled("form")(({ theme }) => ({
 	width: "60%",
+
+	[theme.breakpoints.down("sm")]: {
+		width: "100%",
+	},
+
+	[theme.breakpoints.down("md")]: {
+		width: "70%",
+	},
+}));
+
+export const FancyTextField = styled(TextField)(({ theme }) => ({
+	width: "100%",
+	height: "100%",
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
@@ -199,7 +212,7 @@ export const FancyTextField = styled(TextField)(({ theme }) => ({
 	},
 
 	[theme.breakpoints.down("md")]: {
-		width: "70%",
+		width: "100%",
 	},
 	[theme.breakpoints.down("sm")]: {
 		width: "100%",

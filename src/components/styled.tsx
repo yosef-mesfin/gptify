@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, Theme } from "@mui/material/styles";
 
 export const ButtonStyle = styled(Button)({
 	borderRadius: "50%",
@@ -8,7 +8,7 @@ export const ButtonStyle = styled(Button)({
 
 import { Container } from "@mui/material";
 
-export const Root = styled(Container)(({ theme }) => ({
+export const Root = styled(Container)(({ theme }: { theme: Theme }) => ({
 	display: "flex",
 	background: "radial-gradient(circle, #3F024F, #000515)",
 	width: "100%",

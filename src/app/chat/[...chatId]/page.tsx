@@ -13,7 +13,8 @@ import {
 	FancyTextField,
 	PromptIconButtonsWrapper,
 	FancyIconButton,
-} from "@/components/chat/chatStyledComponentsLib";
+	StyledForm,
+} from "@/components/chatStyledComponentsLib";
 import useResponsive from "@/hooks/useResponsive";
 import Link from "next/link";
 import { gpt3 } from "@/actions/chat";
@@ -29,13 +30,22 @@ export default function Page({ params }: { params: { chatId: string } }) {
 		setInput(event.target.value);
 	};
 
-	const isMobile = useResponsive("down", "sm");
 	const handleFinish = async (query: string) => {
 		const result = await gpt3(query);
 		if (result.length === 0) {
 			return;
 		}
 	};
+
+	const handleSubmit = async (event: React.FormEvent) => {
+		event.preventDefault();
+		if (input.trim()) {
+			console.log("input", input);
+			await handleFinish(input);
+			setInput("");
+		}
+	};
+	const isMobile = useResponsive("down", "sm");
 	return (
 		<PlaygroundWrapper isMobile={isMobile}>
 			<ChatBodyWrapper>
@@ -43,21 +53,23 @@ export default function Page({ params }: { params: { chatId: string } }) {
 			</ChatBodyWrapper>
 
 			<PromptWrapper>
-				<FancyTextField
-					variant="outlined"
-					placeholder="Enter your prompt here..."
-					value={input}
-					onChange={handleInputChange}
-					InputProps={{
-						endAdornment: input && (
-							<Link href={`/chat/123`}>
-								<IconButton sx={{ color: "#88728d" }}>
-									<SendIcon />
-								</IconButton>
-							</Link>
-						),
-					}}
-				/>
+				<StyledForm onSubmit={handleSubmit}>
+					<FancyTextField
+						variant="outlined"
+						placeholder="Enter your prompt here..."
+						value={input}
+						onChange={handleInputChange}
+						InputProps={{
+							endAdornment: input && (
+								<Link href={`/chat/123`}>
+									<IconButton sx={{ color: "#88728d" }}>
+										<SendIcon />
+									</IconButton>
+								</Link>
+							),
+						}}
+					/>
+				</StyledForm>
 				<PromptIconButtonsWrapper>
 					{isMobile && <FriendlyMic onFinish={handleFinish} />}
 					<FancyIconButton>

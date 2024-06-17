@@ -1,10 +1,11 @@
 "use client";
 import { Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, Theme } from "@mui/material/styles";
 import MicIcon from "@mui/icons-material/Mic";
-import { useEffect, useRef } from "react";
+import { useRecordVoice } from "@/hooks/useRecordVoice";
+import { useEffect } from "react";
 
-const ButtonStyle = styled(Button)(({ theme }) => ({
+const ButtonStyle = styled(Button)(({ theme }: { theme: Theme }) => ({
 	alignSelf: "center",
 	display: "flex",
 	justifyContent: "center",
@@ -18,6 +19,10 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 		boxShadow: "0 0 0.5rem #fff",
 	},
 
+	"&:hover svg": {
+		color: "#ff00ff",
+	},
+
 	[theme.breakpoints.down("md")]: {
 		height: "64px",
 		width: "64px",
@@ -29,6 +34,10 @@ const MicIconStyle = styled(MicIcon)({
 	filter: "drop-shadow(0 0 .1rem #fff)",
 	color: "#000",
 	fontSize: "3rem",
+
+	"&:hover": {
+		color: "#ff00ff",
+	},
 });
 
 type FriendlyMicProps = Readonly<{
@@ -36,35 +45,22 @@ type FriendlyMicProps = Readonly<{
 }>;
 
 export default function FriendlyMic({ onFinish }: FriendlyMicProps) {
-	const recognition = useRef<any>(null);
-
-	const handleClick = () => {
-		if (recognition.current) {
-			recognition.current.start();
-		}
-	};
+	const { startRecording, stopRecording, text } = useRecordVoice();
+	console.log("🚀 ~ FriendlyMic ~ text:", text);
 
 	useEffect(() => {
-		// recognition.onstart = function () {
-		//   action.innerHTML = ;
-		// };
-
-		// recognition.onspeechend = function () {
-		//   recognition.stop();
-		// };
-
-		recognition.current = new (window.SpeechRecognition ||
-			window.webkitSpeechRecognition)();
-
-		recognition.current.onresult = function (event: any) {
-			const transcript = event.results[0][0].transcript;
-			const confidence = event.results[0][0].confidence;
-			onFinish && onFinish(transcript);
-		};
-	}, [recognition, onFinish]);
+		if (text) {
+			onFinish(text);
+		}
+	}, [text, onFinish]);
 
 	return (
-		<ButtonStyle onClick={handleClick}>
+		<ButtonStyle
+			onMouseDown={startRecording}
+			onMouseUp={stopRecording}
+			onTouchStart={startRecording}
+			onTouchEnd={stopRecording}
+		>
 			<MicIconStyle />
 		</ButtonStyle>
 	);
