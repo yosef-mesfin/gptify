@@ -3,7 +3,7 @@ import fs from "fs";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
+	apiKey: "MY_OPENAI_API_KEY",
 });
 
 type RequestBody = {
