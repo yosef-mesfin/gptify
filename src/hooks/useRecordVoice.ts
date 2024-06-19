@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import { blobToBase64, createMediaStream } from "@/libs/utils";
 
 export const useRecordVoice = () => {
-	console.log("useRecordVoice");
 	// State to hold the current transcription text
 	const [text, setText] = useState("");
 
@@ -81,7 +80,6 @@ export const useRecordVoice = () => {
 
 		mediaRecorder.onstop = () => {
 			const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
-			console.log("🚀 ~ audioBlob:", audioBlob);
 			// convert the audio blob to base64
 			blobToBase64(audioBlob, getText);
 		};
@@ -99,5 +97,5 @@ export const useRecordVoice = () => {
 		}
 	}, []);
 
-	return { startRecording, stopRecording, recording, text };
+	return { mediaRecorder, startRecording, stopRecording, recording, text };
 };
