@@ -1,6 +1,7 @@
 import { act, renderHook } from "@testing-library/react-hooks";
 import { waitFor } from "@testing-library/react";
 import { useRecordVoice } from "@/hooks/useRecordVoice";
+import { createMediaStream } from "@/libs/utils";
 
 // Mock the media recorder and navigator.mediaDevices
 const mockMediaRecorder = jest.fn().mockImplementation((stream) => ({
@@ -94,6 +95,18 @@ describe("useRecordVoice", () => {
 		await waitFor(() => {
 			expect(MediaRecorder).toHaveBeenCalledWith(expect.any(MockMediaStream));
 		});
+
+		// Check if CreateMediaStream is called with the correct parameters
+		const mediaRecorderInstance = mockMediaRecorder.mock.results[0].value;
+		if (mediaRecorderInstance.onstart) {
+			mediaRecorderInstance.onstart(new Event("start"));
+		}
+
+		expect(createMediaStream).toHaveBeenCalledWith(
+			expect.any(MockMediaStream),
+			false,
+			expect.any(Function)
+		);
 	});
 
 	// Test case 3 - start recording
@@ -150,6 +163,59 @@ describe("useRecordVoice", () => {
 
 		await waitFor(() => {
 			expect(result.current.text).toBe("base64audio");
+		});
+	});
+
+	// Test case 5 - set error when failing to access the microphone
+	it("should set error when the failing to access the microphone", async () => {
+		const error = new Error("Error accessing microphone");
+		mockGetUserMedia.mockRejectedValueOnce(error);
+
+		const { result, waitForNextUpdate } = renderHook(() => useRecordVoice());
+
+		await waitForNextUpdate();
+
+		// Asserts
+		expect(result.current.Error).toBe("Error accessing microphone");
+	});
+
+	// Test case 6 - error handling for transcription failure
+	it("should set error when failing to transcribe audio", async () => {
+		// Mock the fetch function to reject the promise
+		global.fetch = jest.fn(() =>
+			Promise.reject(new Error("Error transcribing audio"))
+		);
+
+		const { result, waitForNextUpdate } = renderHook(() => useRecordVoice());
+
+		await waitForNextUpdate();
+
+		act(() => {
+			result.current.startRecording();
+		});
+
+		act(() => {
+			const mediaRecorderInstance = result.current.mediaRecorder;
+
+			if (mediaRecorderInstance && mediaRecorderInstance.ondataavailable) {
+				const dataAvailableEvent = new MockBlobEvent("dataavailable", {
+					data: new Blob(["audio data"], { type: "audio/wav" }),
+					timecode: 0,
+				});
+				mediaRecorderInstance.ondataavailable(dataAvailableEvent);
+			}
+
+			if (mediaRecorderInstance && mediaRecorderInstance.onstop) {
+				mediaRecorderInstance.onstop(new Event("stop"));
+			}
+
+			result.current.stopRecording();
+		});
+
+		expect(result.current.recording).toBe(false);
+
+		await waitFor(() => {
+			expect(result.current.Error).toBe("Error transcribing audio");
 		});
 	});
 });

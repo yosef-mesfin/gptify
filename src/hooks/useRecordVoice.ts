@@ -12,8 +12,8 @@ export const useRecordVoice = () => {
 	);
 	// State to track whether recording is currently in progress
 	const [recording, setRecording] = useState(false);
-
 	const isRecording = useRef(false);
+	const [Error, setError] = useState<string | null>(null);
 
 	// Ref to store audio chunks during recording
 	const chunks = useRef<Blob[]>([]);
@@ -24,6 +24,8 @@ export const useRecordVoice = () => {
 			isRecording.current = true;
 			mediaRecorder.start();
 			setRecording(true);
+		} else {
+			setError("Error: MediaRecorder not initialized");
 		}
 	};
 
@@ -33,6 +35,8 @@ export const useRecordVoice = () => {
 			isRecording.current = false;
 			mediaRecorder.stop();
 			setRecording(false);
+		} else {
+			setError("Error: MediaRecorder not initialized");
 		}
 	};
 
@@ -54,37 +58,43 @@ export const useRecordVoice = () => {
 
 			const { text } = response;
 			setText(text);
+			setError(null);
 		} catch (error) {
 			console.error("Error transcribing audio:", error);
+			setError("Error transcribing audio");
 		}
 	};
 
 	// Function to initialize the media recorder with the provided stream
 	const initializeMediaRecorder = (stream: MediaStream) => {
-		const mediaRecorder = new MediaRecorder(stream);
+		try {
+			const mediaRecorder = new MediaRecorder(stream);
 
-		mediaRecorder.onstart = () => {
-			// create media stream for audio analysis
-			createMediaStream(stream, isRecording.current, (peakLevel) => {
-				if (isRecording.current) {
-					console.log("🚀 ~ peakLevel:", peakLevel);
-				}
-			});
+			mediaRecorder.onstart = () => {
+				// create media stream for audio analysis
+				createMediaStream(stream, isRecording.current, (peakLevel) => {
+					if (isRecording.current) {
+						console.log("🚀 ~ peakLevel:", peakLevel);
+					}
+				});
 
-			resetRecording();
-		};
+				resetRecording();
+			};
 
-		mediaRecorder.ondataavailable = (event: BlobEvent) => {
-			chunks.current.push(event.data);
-		};
+			mediaRecorder.ondataavailable = (event: BlobEvent) => {
+				chunks.current.push(event.data);
+			};
 
-		mediaRecorder.onstop = () => {
-			const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
-			// convert the audio blob to base64
-			blobToBase64(audioBlob, getText);
-		};
+			mediaRecorder.onstop = () => {
+				const audioBlob = new Blob(chunks.current, { type: "audio/wav" });
+				// convert the audio blob to base64
+				blobToBase64(audioBlob, getText);
+			};
 
-		setMediaRecorder(mediaRecorder);
+			setMediaRecorder(mediaRecorder);
+		} catch (error) {
+			setError("Error initializing MediaRecorder");
+		}
 	};
 
 	// Effect to initialize the media recorder when the component mounts
@@ -93,9 +103,19 @@ export const useRecordVoice = () => {
 			navigator.mediaDevices
 				.getUserMedia({ audio: true })
 				.then(initializeMediaRecorder)
-				.catch((error) => console.error("Error accessing microphone:", error));
+				.catch((error) => {
+					console.error("Error accessing microphone:", error);
+					setError("Error accessing microphone");
+				});
 		}
 	}, []);
 
-	return { mediaRecorder, startRecording, stopRecording, recording, text };
+	return {
+		mediaRecorder,
+		startRecording,
+		stopRecording,
+		recording,
+		text,
+		Error,
+	};
 };
