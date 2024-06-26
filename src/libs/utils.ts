@@ -17,7 +17,7 @@ type Analyzer = {
 };
 
 // Function to  calculate the pick level from the analyser data
-const getPeakLevel = (analyzer: Analyzer) => {
+export const getPeakLevel = (analyzer: Analyzer) => {
 	const array = new Uint8Array(analyzer.fftSize);
 
 	// Get the time domain data from the analyzer and store it in the array
