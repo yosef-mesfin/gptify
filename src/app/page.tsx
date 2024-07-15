@@ -52,8 +52,7 @@ export default function Home() {
 						marginTop: theme.spacing(2),
 					}}
 				>
-					<FadeInLink href="/api/auth/login">Login</FadeInLink>
-					<FadeInLink href="/api/auth/signup">Sign up</FadeInLink>
+					<FadeInLink href="/api/auth/login">Sign in</FadeInLink>
 				</Box>
 			</Box>
 		</PageWrapper>
